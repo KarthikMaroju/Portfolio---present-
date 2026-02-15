@@ -1,0 +1,21 @@
+// script.js
+document.addEventListener('DOMContentLoaded', () => {
+  // Simple animation for cards on scroll
+  const cards = document.querySelectorAll('.card');
+  
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = 1;
+        entry.target.style.transform = 'perspective(3000px) rotateY(0deg) translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  cards.forEach(card => {
+    card.style.opacity = 0;
+    card.style.transform = 'perspective(3000px) rotateY(15deg) translateY(50px)';
+    card.style.transition = 'opacity 1s ease, transform 1s ease';
+    observer.observe(card);
+  });
+});
