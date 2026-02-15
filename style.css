@@ -1,0 +1,292 @@
+/* style.css */
+:root {
+  --parallax-scale: 0.1;
+  --parallax-min-height: 44rem;
+  --container-offset-adjustment: 5rem;
+}
+
+/* disable if requested for accessibility reasons */
+@media (prefers-reduced-motion) {
+  :root {
+    --parallax-scale: 0;
+  }
+}
+
+/* container around parallax layers */
+.parallax__group {
+  position: relative;
+  z-index: -1;
+  transform-origin: center top;
+  transform: scaleY(calc(1 - var(--parallax-scale)));
+  margin-top: calc(
+    var(--container-offset-adjustment)
+    (-1
+      max(100vh, var(--parallax-min-height))
+    )
+  );
+  margin-bottom: calc(-1 * var(--container-offset-adjustment));
+}
+
+.parallax__layer {
+  transform-origin: center top;
+  transform: scaleY(calc(1 / (1 - var(--parallax-scale))));
+}
+
+.parallax__layer--foreground {
+  position: relative;
+  top: 0;
+}
+
+.parallax__layer--background {
+  position: sticky;
+  z-index: -2;
+  top: 0;
+  transform-origin: center top;
+  transform: scaleY(calc(1 / (1 - var(--parallax-scale))));
+  height: 100%;
+  min-height: 100vh;
+  min-height: max(100vh, var(--parallax-min-height));
+  width: 100vw;
+  background-attachment: fixed; /* legacy fallback */
+  background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  animation: gradientAnimation 10s ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* recommended other elements' opaque background etc. */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #222;
+  background: #f9f9f9;
+}
+
+header, footer, section {
+  background-color: #fff;
+  margin: 0;
+  padding: 1rem;
+}
+
+header {
+  background: #222;
+  color: #fff;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.profile-pic {
+  width: 200px;
+  height: auto;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  transform: perspective(1000px) rotateY(0deg);
+  transition: transform 0.5s;
+}
+
+.profile-pic:hover {
+  transform: perspective(1000px) rotateY(10deg);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+header p {
+  margin: 8px 0;
+  font-size: 1.1rem;
+}
+
+nav {
+  margin-top: 15px;
+}
+
+nav a {
+  color: #fff;
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+section {
+  padding: 40px 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+h2 {
+  color: #0b7;
+  margin-bottom: 15px;
+}
+
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transform: perspective(1500px) rotateY(15deg);
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+  transition: transform 1s ease 0s;
+}
+
+.card:hover {
+  transform: perspective(3000px) rotateY(5deg);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  margin-bottom: 8px;
+}
+
+footer {
+  background: #222;
+  color: #ccc;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}
+
+footer a {
+  color: #0b7;
+  text-decoration: none;
+}
+
+/* Social media icons */
+.social-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.social-ul {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.social-ul li {
+  list-style: none;
+  margin: 0 20px 20px;
+}
+
+.social-ul li a {
+  position: relative;
+  display: block;
+  width: 80px;
+  height: 100px;
+  text-align: center;
+  background-color: #808080;
+  transform: perspective(1000px) rotate(-30deg) skew(25deg) translate(0, 0);
+  transition: 0.5s;
+  box-shadow: -30px 30px 10px rgba(0,0,0,0.5);
+  text-decoration: none;
+}
+
+.social-ul li a .fa-solid, .social-ul li a .fab {
+  font-size: 40px;
+  color: #fff;
+  line-height: 80px;
+  transition: 0.5s;
+}
+
+.social-ul li a span {
+  display: block;
+  font-size: 14px;
+  color: #fff;
+  transition: 0.5s;
+  line-height: 20px;
+}
+
+.social-ul li a::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: -20px;
+  height: 100%;
+  width: 20px;
+  background-color: #93a092;
+  transition: 0.5s;
+  transform: rotate(0deg) skewY(-45deg);
+}
+
+.social-ul li a::after {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  left: -10px;
+  height: 20px;
+  width: 100%;
+  background-color: #b1b1b1;
+  transition: 0.5s;
+  transform: rotate(0deg) skewX(-45deg);
+}
+
+.social-ul li a:hover {
+  transform: perspective(1000px) rotate(-30deg) skew(25deg) translate(20px, -20px);
+  box-shadow: -50px 50px 50px rgba(0, 0, 0, 0.5);
+}
+
+.social-ul li:hover .fa-solid, .social-ul li:hover .fab, .social-ul li:hover span {
+  color: #fff;
+}
+
+/* Email */
+.social-ul li:nth-child(1) a {
+  background: #d44638;
+}
+.social-ul li:nth-child(1) a::before {
+  background: #b23121;
+}
+.social-ul li:nth-child(1) a::after {
+  background: #e44d25;
+}
+
+/* Phone */
+.social-ul li:nth-child(2) a {
+  background: #25d366;
+}
+.social-ul li:nth-child(2) a::before {
+  background: #075e54;
+}
+.social-ul li:nth-child(2) a::after {
+  background: #128c7e;
+}
+
+/* LinkedIn */
+.social-ul li:nth-child(3) a {
+  background: #0077b5;
+}
+.social-ul li:nth-child(3) a::before {
+  background: #004f80;
+}
+.social-ul li:nth-child(3) a::after {
+  background: #0099e6;
+}
+
+/* GitHub */
+.social-ul li:nth-child(4) a {
+  background: #181717;
+}
+.social-ul li:nth-child(4) a::before {
+  background: #0d0d0d;
+}
+.social-ul li:nth-child(4) a::after {
+  background: #242424;
+  }
