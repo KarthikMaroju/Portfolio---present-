@@ -48,8 +48,9 @@
   min-height: max(100vh, var(--parallax-min-height));
   width: 100vw;
   background-attachment: fixed; /* legacy fallback */
-  background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  animation: gradientAnimation 10s ease infinite;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  background-size: 200% 200%;
+  animation: gradientAnimation 15s ease infinite;
 }
 
 @keyframes gradientAnimation {
@@ -66,19 +67,27 @@ body {
   line-height: 1.6;
   color: #222;
   background: #f9f9f9;
+  perspective: 1500px; /* Add 3D perspective to body */
 }
 
 header, footer, section {
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.9);
   margin: 0;
   padding: 1rem;
+  transform-style: preserve-3d;
 }
 
 header {
-  background: #222;
+  background: rgba(34, 34, 34, 0.8);
   color: #fff;
   padding: 40px 20px;
   text-align: center;
+  animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-50px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .profile-pic {
@@ -87,22 +96,34 @@ header {
   border-radius: 50%;
   margin-bottom: 20px;
   box-shadow: 0 0 20px rgba(0,0,0,0.5);
-  transform: perspective(1000px) rotateY(0deg);
-  transition: transform 0.5s;
+  transform: rotateY(0deg);
+  transition: transform 0.5s ease-in-out;
 }
 
 .profile-pic:hover {
-  transform: perspective(1000px) rotateY(10deg);
+  transform: rotateY(360deg);
 }
 
 header h1 {
   margin: 0;
   font-size: 2rem;
+  animation: slideInLeft 1.5s ease-out;
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
 header p {
   margin: 8px 0;
   font-size: 1.1rem;
+  animation: slideInRight 1.5s ease-out;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
 nav {
@@ -114,17 +135,35 @@ nav a {
   margin: 0 10px;
   text-decoration: none;
   font-weight: bold;
+  transition: color 0.3s, transform 0.3s;
+}
+
+nav a:hover {
+  color: #0b7;
+  transform: scale(1.1) rotate(5deg);
 }
 
 section {
   padding: 40px 20px;
   max-width: 900px;
   margin: auto;
+  animation: fadeInUp 1s ease-in-out;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 h2 {
   color: #0b7;
   margin-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  transition: transform 0.3s;
+}
+
+h2:hover {
+  transform: translateZ(10px);
 }
 
 .card {
@@ -133,14 +172,12 @@ h2 {
   border-radius: 10px;
   margin-bottom: 20px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  transform: perspective(1500px) rotateY(15deg);
-  border-radius: 1rem;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
-  transition: transform 1s ease 0s;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease-in-out;
 }
 
 .card:hover {
-  transform: perspective(3000px) rotateY(5deg);
+  transform: perspective(3000px) rotateY(10deg) rotateX(5deg) translateZ(20px);
 }
 
 ul {
@@ -150,6 +187,20 @@ ul {
 
 ul li {
   margin-bottom: 8px;
+  position: relative;
+  padding-left: 20px;
+  transition: transform 0.3s;
+}
+
+ul li::before {
+  content: '✔️';
+  position: absolute;
+  left: 0;
+  color: #0b7;
+}
+
+ul li:hover {
+  transform: translateX(10px);
 }
 
 footer {
@@ -158,6 +209,7 @@ footer {
   text-align: center;
   padding: 20px;
   margin-top: 40px;
+  animation: fadeIn 2s ease-in-out;
 }
 
 footer a {
@@ -289,4 +341,4 @@ footer a {
 }
 .social-ul li:nth-child(4) a::after {
   background: #242424;
-  }
+}
